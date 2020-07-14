@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_app3/models/product.dart';
+import 'package:flutter_app3/providers/product.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = [
@@ -41,5 +41,13 @@ class Products with ChangeNotifier {
   List<Product> get items {
     return [..._items]; // copy of _items
     // To changes products, SHOULD call methods of this provider
+  }
+
+  List<Product> get favoriteItems {
+    return _items.where((item) => item.isFavorite).toList();
+  }
+
+  Product findById(String id) {
+    return _items.firstWhere((element) => element.id == id);
   }
 }

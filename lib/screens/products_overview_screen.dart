@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:flutter_app3/providers/cart.dart';
+
+import 'package:flutter_app3/screens/cart_screen.dart';
 
 import 'package:flutter_app3/widgets/products_grid.dart';
+import 'package:flutter_app3/widgets/badge.dart';
+import 'package:flutter_app3/widgets/app_drawer.dart';
 
 enum FilterOptions {
   Favorites,
@@ -40,9 +47,24 @@ class _ProductsOverviewState extends State<ProductsOverview> {
                   value: FilterOptions.Favorites),
               PopupMenuItem(child: Text('Show All'), value: FilterOptions.All),
             ],
-          )
+          ),
+          Consumer<Cart>(
+            builder: (_, cart, ch) => Badge(
+              child: ch,
+              value: cart.itemCount.toString(),
+            ),
+            child: IconButton(
+              icon: Icon(
+                Icons.shopping_cart,
+              ),
+              onPressed: () {
+                Navigator.of(context).pushNamed(CartScreen.routeName);
+              },
+            ),
+          ),
         ],
       ),
+      drawer: AppDrawer(),
       body: ProductsGrid(_showOnlyFavorite),
     );
   }
